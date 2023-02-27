@@ -26,6 +26,10 @@ class Square(tuple):
     def reflect(self) -> "Square":
         return Square((-self.row, self.col))
 
+    def translate(self, translation: tuple) -> "Square":
+        move = Square(translation)
+        return Square((self.row + move.row, self.col + move.col))
+
 
 class InvalidSquareError(Exception):
     pass
