@@ -30,6 +30,9 @@ class Square(tuple):
         move = Square(translation)
         return Square((self.row + move.row, self.col + move.col))
 
+    def rotate(self) -> "Square":
+        return Square((self.col, -self.row))
+
 
 class InvalidSquareError(Exception):
     pass
