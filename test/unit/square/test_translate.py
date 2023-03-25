@@ -24,3 +24,14 @@ def test_InvalidSquareError_raised_for_translations_of_length_other_than_2(move:
     
     with pytest.raises(InvalidSquareError):
         sut.translate(move)
+
+
+@pytest.mark.parametrize("move", [
+    (1, 1.1),
+    (2.1, 1)
+])
+def test_InvalidSquareError_raised_for_translations_containing_non_int_values(move: tuple[int]):
+    sut = Square((1, 2))
+    
+    with pytest.raises(InvalidSquareError):
+        sut.translate(move)
