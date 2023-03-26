@@ -1,9 +1,9 @@
 import pickle
-from typing import Iterable
+from typing import Iterable, Self
 
 
 class Square(tuple):
-    def __init__(self, iterable: Iterable) -> "Square":
+    def __init__(self, iterable: Iterable) -> Self:
         if len(iterable) != 2:
             raise InvalidSquareError(f"Invalid tuple length of {len(iterable)}. Tuple must be of length 2.")
 
@@ -24,7 +24,7 @@ class Square(tuple):
     def hash(self) -> str:
         return pickle.dumps(tuple(self))
 
-    def reflect_across_x(self) -> "Square":
+    def reflect_across_x(self) -> Self:
         """Creates a reflection of the square across the x-axis
 
         Returns:
@@ -32,7 +32,7 @@ class Square(tuple):
         """        
         return Square((self.x, -self.y))
 
-    def translate(self, translation: tuple) -> "Square":
+    def translate(self, translation: tuple) -> Self:
         """Creates a translation of the original Square
 
         Args:
@@ -44,7 +44,7 @@ class Square(tuple):
         move = Square(translation)
         return Square((self.x + move.x, self.y + move.y))
 
-    def rotate(self) -> "Square":
+    def rotate(self) -> Self:
         """Creates a 90-degree counter-clockwise rotation of the original Square
 
         Returns:
