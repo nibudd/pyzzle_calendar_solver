@@ -1,38 +1,24 @@
 import pickle
-from typing import Iterable, Self
+from typing import Self
 
 
-class Square(tuple):
-    def __init__(self, iterable: Iterable) -> Self:
-        if len(iterable) != 2:
-            raise InvalidSquareError(f"Invalid tuple length of {len(iterable)}. Tuple must be of length 2.")
+class Square:
+    def __init__(self, x: int, y: int) -> Self:
+        if type(x) != int or type(y) != int:
+            raise SquareTypeError(f"Invalid arguments to {self.__class__.__name__}: ({type(x), type(y)})")
+        self.x = x
+        self.y = y
 
-        if any(not isinstance(val, int) for val in iterable):
-            raise InvalidSquareError("Invalid values in tuple. All values must be `int`s")
 
-        tuple.__init__(iterable)
-    
-    @property
-    def x(self) -> int:
-        return self[0]
-
-    @property
-    def y(self) -> int:
-        return self[1]
-
-    @property
-    def hash(self) -> str:
-        return pickle.dumps(tuple(self))
-
-    def reflect_across_x(self) -> Self:
+    def reflect_across_x_axis(self) -> Self:
         """Creates a reflection of the square across the x-axis
 
         Returns:
             Square: A Square that is the original Square's reflection in across the x-axis
         """        
-        return Square((self.x, -self.y))
+        return Square(self.x, -self.y)
 
-    def translate(self, translation: tuple) -> Self:
+    def translate(self, x: int = 0, y: int = 0) -> Self:
         """Creates a translation of the original Square
 
         Args:
@@ -40,9 +26,11 @@ class Square(tuple):
 
         Returns:
             Square: The translation of the original Square
-        """        
-        move = Square(translation)
-        return Square((self.x + move.x, self.y + move.y))
+        """   
+        if type(x) != int or type(y) != int:
+            raise SquareTypeError(f"Invalid arguments to {self.translate.__qualname__}: ({type(x), type(y)})")
+        
+        return Square(self.x + x, self.y + y)
 
     def rotate_90deg_counter_clockwise(self) -> Self:
         """Creates a 90-degree counter-clockwise rotation of the original Square
@@ -50,8 +38,11 @@ class Square(tuple):
         Returns:
             Square: The 90-degree counter-clockwise rotation of the original Square 
         """        
-        return Square((-self.y, self.x))
+        return Square(-self.y, self.x)
+
+    def __eq__(self, other: Self) -> bool:
+        return (self.x == other.x) and (self.y == other.y)
 
 
-class InvalidSquareError(Exception):
+class SquareTypeError(TypeError):
     pass

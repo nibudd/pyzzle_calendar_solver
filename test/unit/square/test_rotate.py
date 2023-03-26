@@ -9,6 +9,6 @@ from src.square import Square
     ((-2, -3), (3, -2))
 ])
 def test_rotate_returns_Square_rotated_90_degrees_counter_clockwise(input: tuple[int], expected: tuple[int]):
-    sut = Square(input)
+    sut = Square(*input)
 
-    assert sut.rotate_90deg_counter_clockwise() == expected
+    assert sut.rotate_90deg_counter_clockwise() == Square(*expected)
