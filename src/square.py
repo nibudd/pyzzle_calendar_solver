@@ -13,24 +13,24 @@ class Square(tuple):
         tuple.__init__(iterable)
     
     @property
-    def row(self) -> int:
+    def x(self) -> int:
         return self[0]
 
     @property
-    def col(self) -> int:
+    def y(self) -> int:
         return self[1]
 
     @property
     def hash(self) -> str:
         return pickle.dumps(tuple(self))
 
-    def reflect(self) -> "Square":
-        """Creates a reflection of the square across the 0-axis
+    def reflect_across_x(self) -> "Square":
+        """Creates a reflection of the square across the x-axis
 
         Returns:
-            Square: A Square that is the original Square's reflection in across the 0-axis
+            Square: A Square that is the original Square's reflection in across the x-axis
         """        
-        return Square((-self.row, self.col))
+        return Square((self.x, -self.y))
 
     def translate(self, translation: tuple) -> "Square":
         """Creates a translation of the original Square
@@ -42,7 +42,7 @@ class Square(tuple):
             Square: The translation of the original Square
         """        
         move = Square(translation)
-        return Square((self.row + move.row, self.col + move.col))
+        return Square((self.x + move.x, self.y + move.y))
 
     def rotate(self) -> "Square":
         """Creates a 90-degree counter-clockwise rotation of the original Square
@@ -50,7 +50,7 @@ class Square(tuple):
         Returns:
             Square: The 90-degree counter-clockwise rotation of the original Square 
         """        
-        return Square((self.col, -self.row))
+        return Square((self.y, -self.x))
 
 
 class InvalidSquareError(Exception):

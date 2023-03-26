@@ -5,14 +5,14 @@ import pytest
 from src.square import Square, InvalidSquareError
 
 
-def test_row_returns_element_0():
+def test_x_returns_element_0():
     sut = Square((0, 1))
-    assert sut.row == 0
+    assert sut.x == 0
 
 
-def test_col_returns_element_1():
+def test_y_returns_element_1():
     sut = Square((0, 1))
-    assert sut.col == 1
+    assert sut.y == 1
 
 
 def test_hashes_of_Square_with_same_tuple_are_equal():

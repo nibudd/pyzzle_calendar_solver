@@ -10,9 +10,9 @@ class Piece(tuple):
 
         tuple.__init__(iterable)
 
-    def flip(self) -> "Piece":
-        reflected = (square.reflect() for square in self)
-        translation = (max(square.row for square in self), 0)
+    def flip(self: tuple[Square]) -> "Piece":
+        reflected = (square.reflect_across_x() for square in self)
+        translation = (0, 2 * max(square.y for square in self))
         return Piece(square.translate(translation) for square in reflected)
 
 
