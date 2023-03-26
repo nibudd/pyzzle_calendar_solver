@@ -44,13 +44,13 @@ class Square(tuple):
         move = Square(translation)
         return Square((self.x + move.x, self.y + move.y))
 
-    def rotate(self) -> Self:
+    def rotate_90deg_counter_clockwise(self) -> Self:
         """Creates a 90-degree counter-clockwise rotation of the original Square
 
         Returns:
             Square: The 90-degree counter-clockwise rotation of the original Square 
         """        
-        return Square((self.y, -self.x))
+        return Square((-self.y, self.x))
 
 
 class InvalidSquareError(Exception):

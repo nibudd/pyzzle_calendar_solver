@@ -31,6 +31,28 @@ class Piece(tuple):
         """
         return Piece(square.translate(translation) for square in self)
 
+    def rotate(self: tuple[Square], reps: int=1) -> Self:
+        """Rotates a piece 90 degrees counter-clockwise the indicated number of times
+
+        Args:
+            reps (int, optional): The number of 90 degree reotations to perform. Defaults to 1.
+
+        Returns:
+            Self: A new piece that is the same shape o the original rotated 90 degrees counter-clockwise the indicated number of times
+        """
+        min_reps = reps % 4
+        rotated = []
+        for square in self:
+            _square = Square(square)
+            for _ in range(min_reps):
+                _square = _square.rotate_90deg_counter_clockwise()
+
+            rotated.append(_square)
+
+        return Piece(rotated)
+
+
+
 
 class InvalidPieceError(Exception):
     pass
