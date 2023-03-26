@@ -20,6 +20,17 @@ class Piece(tuple):
         translation = (0, 2 * max(square.y for square in self))
         return Piece(square.translate(translation) for square in reflected)
 
+    def move(self: tuple[Square], translation: tuple) -> Self:
+        """Moves piece a number of squares equal to `translation`
+
+        Args:
+            translation (tuple): A tuple indicating the number of squares the piece will move
+
+        Returns:
+            Self: A new piece that is the same shape of the original but offset by `translation`
+        """
+        return Piece(square.translate(translation) for square in self)
+
 
 class InvalidPieceError(Exception):
     pass
