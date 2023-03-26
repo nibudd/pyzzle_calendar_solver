@@ -9,3 +9,7 @@ dependencies = []
 
 [project.optional-dependencies]
 dev = ["pytest", "pytest-mock", "black", "flake8"]
+
+# dev
+[tool.black]
+line-length = 88

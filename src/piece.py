@@ -1,15 +1,17 @@
 from copy import deepcopy
 from typing import Iterable, Self
 
-from src.square import Square, SquareTypeError
+from src.square import Square
 
 
 class Piece(tuple):
     def __new__(cls, squares: Iterable[Square]) -> Self:
         if all(isinstance(square, Square) for square in squares):
             return super().__new__(cls, squares)
-        
-        raise PieceTypeError(f"Invalid arguments to {cls.__name__}: {(type(x) for x in squares)}")
+
+        raise PieceTypeError(
+            f"Invalid arguments to {cls.__name__}: {(type(x) for x in squares)}"
+        )
 
     def flip(self: tuple[Square]) -> Self:
         """Flips the piece over, as if reflected across the x-axis
@@ -32,7 +34,7 @@ class Piece(tuple):
         """
         return Piece(square.translate(x, y) for square in self)
 
-    def rotate(self: tuple[Square], reps: int=1) -> Self:
+    def rotate(self: tuple[Square], reps: int = 1) -> Self:
         """Rotates a piece 90 degrees counter-clockwise the indicated number of times
 
         Args:
@@ -51,11 +53,11 @@ class Piece(tuple):
             rotated.append(_square)
 
         return Piece(rotated)
-    
+
     @classmethod
     def from_iterables(cls, iterables: Iterable[Iterable[int]]) -> Self:
         return super().__new__(cls, (Square(*iterable) for iterable in iterables))
-    
+
     def __eq__(self, other: Self) -> bool:
         return all(pair[0] == pair[1] for pair in zip(self, other))
 
