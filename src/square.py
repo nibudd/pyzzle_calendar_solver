@@ -2,7 +2,7 @@ from typing import Self
 
 
 class Square:
-    def __init__(self, x: int, y: int) -> Self:
+    def __init__(self, x: int, y: int) -> None:
         if type(x) != int or type(y) != int:
             raise SquareTypeError(
                 f"Invalid arguments to {self.__class__.__name__}: ({type(x), type(y)})"

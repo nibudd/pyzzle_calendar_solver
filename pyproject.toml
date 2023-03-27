@@ -8,7 +8,7 @@ version = "0.1.0"
 dependencies = []
 
 [project.optional-dependencies]
-dev = ["pytest", "pytest-mock", "black", "flake8"]
+dev = ["black", "flake8", "pytest", "pytest-mock"]
 
 # dev
 [tool.black]
