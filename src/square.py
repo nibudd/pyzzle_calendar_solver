@@ -3,6 +3,15 @@ from typing import Self
 
 class Square:
     def __init__(self, x: int, y: int) -> None:
+        """A square on the game board
+
+        Args:
+            x (int): The x-coordinate of the sqaure
+            y (int): The y-coordinate of the sqaure
+
+        Raises:
+            SquareTypeError: Raised if any input is not an `int`
+        """
         if type(x) != int or type(y) != int:
             raise SquareTypeError(
                 f"Invalid arguments to {self.__class__.__name__}: ({type(x), type(y)})"

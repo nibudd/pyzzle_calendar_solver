@@ -5,15 +5,25 @@ from src.square import Square
 
 
 class Piece(tuple):
-    def __new__(cls, squares: Iterable[Square]) -> Self:
-        if all(isinstance(square, Square) for square in squares):
-            return super().__new__(cls, squares)
+    def __new__(cls, squares: Iterable[Square], id: str) -> Self:
+        _squares = tuple(squares)   
+        if any(not isinstance(square, Square) for square in _squares):
+            raise PieceTypeError(
+                f"Invalid `squares` argument to {cls.__name__} with types: {(type(x) for x in squares)}"
+            )
+        
+        self = super().__new__(cls, _squares)
+        self.__init__(_squares, id)
+        return self
+    
+    def __init__(self, squares: Iterable[Square], id: str) -> None:
+        if not isinstance(id, str):
+            raise PieceTypeError(
+                f"Invalid argument `id` to {self.__class__.__name__} with type: {type(id)}"
+            )
+        self._id = id
 
-        raise PieceTypeError(
-            f"Invalid arguments to {cls.__name__}: {(type(x) for x in squares)}"
-        )
-
-    def flip(self: tuple[Square]) -> Self:
+    def flip(self) -> Self:
         """Flips the piece over, as if reflected across the x-axis
 
         Returns:
@@ -21,9 +31,9 @@ class Piece(tuple):
         """
         reflected = (square.reflect_across_x_axis() for square in self)
         move_y = max(square.y for square in self) + min(square.y for square in self)
-        return Piece(square.translate(y=move_y) for square in reflected)
+        return Piece((square.translate(y=move_y) for square in reflected), self._id)
 
-    def move(self: tuple[Square], x: int, y: int) -> Self:
+    def move(self, x: int, y: int) -> Self:
         """Moves piece a number of squares equal to `translation`
 
         Args:
@@ -32,9 +42,9 @@ class Piece(tuple):
         Returns:
             Self: A new piece that is the same shape of the original but offset by `translation`
         """
-        return Piece(square.translate(x, y) for square in self)
+        return Piece((square.translate(x, y) for square in self), self._id)
 
-    def rotate(self: tuple[Square], reps: int = 1) -> Self:
+    def rotate(self, reps: int = 1) -> Self:
         """Rotates a piece 90 degrees counter-clockwise the indicated number of times
 
         Args:
@@ -52,14 +62,18 @@ class Piece(tuple):
 
             rotated.append(_square)
 
-        return Piece(rotated)
+        return Piece(rotated, self._id)
 
     @classmethod
-    def from_iterables(cls, iterables: Iterable[Iterable[int]]) -> Self:
-        return super().__new__(cls, (Square(*iterable) for iterable in iterables))
+    def from_iterables(cls, iterables: Iterable[Iterable[int]], id: str) -> Self:
+        squares = (Square(*iterable) for iterable in iterables)
+        return Piece(squares, id)
 
     def __eq__(self, other: Self) -> bool:
-        return all(pair[0] == pair[1] for pair in zip(self, other))
+        return all(pair[0] == pair[1] for pair in zip(self, other)) and self._id == other._id
+
+    def __ne__(self, other: Self) -> bool:
+        return not self.__eq__(other)
 
 
 class PieceTypeError(TypeError):

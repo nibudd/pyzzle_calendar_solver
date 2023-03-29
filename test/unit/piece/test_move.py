@@ -14,7 +14,7 @@ from src.piece import Piece
 def test_pieces_symmetric_across_0_axis_are_unchanged(
     inputs: tuple[int], translation: tuple, translated: tuple[int]
 ):
-    piece = Piece.from_iterables(inputs)
+    piece = Piece.from_iterables(inputs, "X")
     sut = piece.move(*translation)
 
-    assert sut == Piece.from_iterables(translated)
+    assert sut == Piece.from_iterables(translated, "X")

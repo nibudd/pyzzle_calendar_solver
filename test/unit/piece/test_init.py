@@ -11,10 +11,18 @@ from src.square import Square
 )
 def test_tuples_containing_non_Square_values_raise_PieceTypeError(tup: tuple[Any]):
     with pytest.raises(PieceTypeError):
-        Piece(tup)
+        Piece(tup, "X")
 
 
 def test_tuple_containing_only_Squares_returns_Piece_object():
-    sut = Piece((Square(1, 2), Square(0, 1), Square(3, 4)))
+    sut = Piece((Square(1, 2), Square(0, 1), Square(3, 4)), "X")
 
     assert isinstance(sut, Piece)
+
+
+@pytest.mark.parametrize("id", [
+    1, 2.3, True, (4, 5.5), [6.6, 7]
+])
+def test_non_str_id_raises_PieceTypeError(id: Any):
+    with pytest.raises(PieceTypeError):
+        Piece(((1, 1), (2, 2), (3, 3)), id)

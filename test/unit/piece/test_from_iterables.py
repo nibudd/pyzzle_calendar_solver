@@ -12,4 +12,4 @@ from src.piece import Piece
     ],
 )
 def test_returns_a_Piece(iterables: Iterable[Iterable[int]]):
-    assert isinstance(Piece.from_iterables(iterables), Piece)
+    assert isinstance(Piece.from_iterables(iterables, "X"), Piece)
