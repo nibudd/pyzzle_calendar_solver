@@ -33,7 +33,7 @@ class Piece(tuple):
         move_y = max(square.y for square in self) + min(square.y for square in self)
         return Piece((square.translate(y=move_y) for square in reflected), self._id)
 
-    def move(self, x: int, y: int) -> Self:
+    def move(self: Iterable[Square], x: int, y: int) -> Self:
         """Moves piece a number of squares equal to `translation`
 
         Args:
@@ -56,7 +56,7 @@ class Piece(tuple):
         min_reps = reps % 4
         rotated = []
         for square in self:
-            _square = deepcopy(square)
+            _square: Square = deepcopy(square)
             for _ in range(min_reps):
                 _square = _square.rotate_90deg_counter_clockwise()
 
