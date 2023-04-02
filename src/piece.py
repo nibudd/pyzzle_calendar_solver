@@ -21,7 +21,7 @@ class Piece(tuple):
             raise PieceTypeError(
                 f"Invalid argument `id` to {self.__class__.__name__} with type: {type(id)}"
             )
-        self._id = id
+        self.id = id
 
     def flip(self) -> Self:
         """Flips the piece over, as if reflected across the x-axis
@@ -31,7 +31,7 @@ class Piece(tuple):
         """
         reflected = (square.reflect_across_x_axis() for square in self)
         move_y = max(square.y for square in self) + min(square.y for square in self)
-        return Piece((square.translate(y=move_y) for square in reflected), self._id)
+        return Piece((square.translate(y=move_y) for square in reflected), self.id)
 
     def move(self: Iterable[Square], x: int, y: int) -> Self:
         """Moves piece a number of squares equal to `translation`
@@ -62,7 +62,7 @@ class Piece(tuple):
 
             rotated.append(_square)
 
-        return Piece(rotated, self._id)
+        return Piece(rotated, self.id)
 
     @classmethod
     def from_iterables(cls, iterables: Iterable[Iterable[int]], id: str) -> Self:
@@ -70,10 +70,18 @@ class Piece(tuple):
         return Piece(squares, id)
 
     def __eq__(self, other: Self) -> bool:
-        return all(pair[0] == pair[1] for pair in zip(self, other)) and self._id == other._id
+        return all(pair[0] == pair[1] for pair in zip(self, other)) and self.id == other.id
 
     def __ne__(self, other: Self) -> bool:
         return not self.__eq__(other)
+    
+    def __repr__(self) -> str:
+        return (
+            f"{self.__class__.__name__}("
+            f'squares=({", ".join(str((s.x, s.y)) for s in self)})'
+            f", id={repr(self.id)}"
+            ")"
+        )
 
 
 class PieceTypeError(TypeError):

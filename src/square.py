@@ -53,6 +53,14 @@ class Square:
 
     def __eq__(self, other: Self) -> bool:
         return (self.x == other.x) and (self.y == other.y)
+    
+    def __repr__(self) -> str:
+        return (
+            f"{self.__class__.__name__}("
+            f"x={self.x}"
+            f", y={self.y}"
+            ")"
+        )
 
 
 class SquareTypeError(TypeError):
