@@ -42,7 +42,7 @@ class Piece(tuple):
         Returns:
             Self: A new piece that is the same shape of the original but offset by `translation`
         """
-        return Piece((square.translate(x, y) for square in self), self._id)
+        return Piece((square.translate(x, y) for square in self), self.id)
 
     def rotate(self, reps: int = 1) -> Self:
         """Rotates a piece 90 degrees counter-clockwise the indicated number of times
