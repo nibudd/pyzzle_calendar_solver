@@ -1,2 +1,2 @@
-from .piece import Piece, PieceTypeError
-from config import PieceConfig
+from .piece_service import flip
+from .piece import Piece

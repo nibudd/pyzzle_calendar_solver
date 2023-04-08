@@ -1,4 +1,4 @@
-from src.piece import Piece
+from src.piece import PieceService
 
 class Board:
     def __init__(self, x: int, y: int) -> None:
@@ -14,7 +14,7 @@ class Board:
         self._x = x
         self._y = y
 
-    def add_piece(self, piece: Piece) -> None:
+    def add_piece(self, piece: PieceService) -> None:
         for square in piece:
             key = (square.x, square.y)
             if self._board[key] is not None:

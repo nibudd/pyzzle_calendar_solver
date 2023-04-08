@@ -1,7 +1,7 @@
 import pytest
 from typing import Iterable
 
-from src.piece import Piece
+from src.piece import PieceService
 
 
 @pytest.mark.parametrize(
@@ -12,4 +12,4 @@ from src.piece import Piece
     ],
 )
 def test_returns_a_Piece(iterables: Iterable[Iterable[int]]):
-    assert isinstance(Piece.from_iterables(iterables, "X"), Piece)
+    assert isinstance(PieceService.from_iterables(iterables, "X"), PieceService)

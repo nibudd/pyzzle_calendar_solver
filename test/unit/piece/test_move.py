@@ -1,6 +1,6 @@
 import pytest
 
-from src.piece import Piece
+from src.piece import PieceService
 
 
 @pytest.mark.parametrize(
@@ -14,7 +14,7 @@ from src.piece import Piece
 def test_pieces_symmetric_across_0_axis_are_unchanged(
     inputs: tuple[int], translation: tuple, translated: tuple[int]
 ):
-    piece = Piece.from_iterables(inputs, "X")
+    piece = PieceService.from_iterables(inputs, "X")
     sut = piece.move(*translation)
 
-    assert sut == Piece.from_iterables(translated, "X")
+    assert sut == PieceService.from_iterables(translated, "X")

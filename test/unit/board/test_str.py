@@ -1,5 +1,5 @@
 from src.board import Board
-from src.piece import Piece
+from src.piece import PieceService
 
 
 def test_1x1_board_check():
@@ -22,7 +22,7 @@ def test_1x1_board_with_piece_X_check():
         "|  X  |",
         "+ --- +"
     ])
-    piece = Piece.from_iterables(((0, 0),), "X")
+    piece = PieceService.from_iterables(((0, 0),), "X")
     board.add_piece(piece)
 
     sut = str(board)
@@ -41,7 +41,7 @@ def test_3x3_board_with_piece_L_check():
         "|  L  |  L  |     |",
         "+ --- + --- + --- +",
     ])
-    piece = Piece.from_iterables((
+    piece = PieceService.from_iterables((
         (0, 2), (0, 1), (0, 0), (1, 0)
     ), "L")
     board.add_piece(piece)
@@ -62,10 +62,10 @@ def test_3x3_board_with_two_pieces_check():
         "|  L  |  L  |     |",
         "+ --- + --- + --- +",
     ])
-    piece_1 = Piece.from_iterables((
+    piece_1 = PieceService.from_iterables((
         (0, 2), (0, 1), (0, 0), (1, 0)
     ), "L")
-    piece_2 = Piece.from_iterables((
+    piece_2 = PieceService.from_iterables((
         (1, 1), (2, 1), (2, 2)
     ), "M")
     

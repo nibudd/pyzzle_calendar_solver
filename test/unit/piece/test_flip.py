@@ -1,29 +1,39 @@
 import pytest
 
 from src.square import Square
-from src.piece import Piece
+from src.piece import Piece, flip
 
 
 @pytest.mark.parametrize(
-    "inputs",
-    [((1, 0), (2, 0), (3, 0)), ((1, 1), (2, 1), (3, 1)), ((1, 5), (2, 5), (3, 5))],
-)
-def test_pieces_symmetric_across_x_axis_are_unchanged(inputs: tuple[tuple[int]]):
-    sut = Piece.from_iterables(inputs, "X")
-
-    assert sut.flip() == sut
-
-
-@pytest.mark.parametrize(
-    "unflipped,flipped",
+    "piece",
     [
-        (((0, 0), (1, 1)), ((0, 1), (1, 0))),
-        (((0, 0), (1, 1), (2, 1)), ((0, 1), (1, 0), (2, 0))),
+        Piece((Square(1, 0), Square(2, 0), Square(3, 0)), "X"), 
+        Piece((Square(1, 1), Square(2, 1), Square(3, 1)), "X"), 
+        Piece((Square(1, 5), Square(2, 5), Square(3, 5)), "X")
+    ],
+)
+def test_pieces_symmetric_across_x_axis_are_unchanged(piece: Piece):
+    flipped = flip(piece)
+
+    assert flipped == piece
+
+
+@pytest.mark.parametrize(
+    "unflipped,expected",
+    [
+        (
+            Piece((Square(0, 0), Square(1, 1)), "X"), 
+            Piece((Square(0, 1), Square(1, 0)), "X")
+        ),
+        (
+            Piece((Square(0, 0), Square(1, 1), Square(2, 1)), "X"), 
+            Piece((Square(0, 1), Square(1, 0), Square(2, 0)), "X")
+        ),
     ],
 )
 def test_pieces_asymmetric_across_x_axis_flip_as_expected(
-    unflipped: tuple[int], flipped: tuple[int]
+    unflipped: Piece, expected: Piece
 ):
-    sut = Piece.from_iterables(unflipped, "X")
+    flipped = flip(unflipped)
 
-    assert sut.flip() == Piece.from_iterables(flipped, "X")
+    assert flipped == expected
