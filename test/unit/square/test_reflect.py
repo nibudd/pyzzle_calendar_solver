@@ -1,12 +1,15 @@
 import pytest
 
-from src.square import Square
+from src.square import Square, reflect
 
 
-@pytest.mark.parametrize("input,expected", [((0, 0), (0, 0)), ((1, 1), (1, -1))])
+@pytest.mark.parametrize("input,expected", [
+    (Square(0, 0), Square(0, 0)), 
+    (Square(1, 1), Square(1, -1))
+])
 def test_reflect_returns_Square_reflected_across_0_axis(
-    input: tuple[int], expected: tuple[int]
+    input: Square, expected: Square
 ):
-    sut = Square(*input)
+    output = reflect(input)
 
-    assert sut.reflect_across_x_axis() == Square(*expected)
+    assert output == expected

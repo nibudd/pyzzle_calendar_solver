@@ -1,14 +1,17 @@
 import pytest
 
-from src.square import Square
+from src.square import Square, rotate
 
 
 @pytest.mark.parametrize(
-    "input,expected", [((0, 0), (0, 0)), ((1, 2), (-2, 1)), ((-2, -3), (3, -2))]
-)
+    "input,expected", [
+    (Square(0, 0), Square(0, 0)), 
+    (Square(1, 2), Square(-2, 1)), 
+    (Square(-2, -3), Square(3, -2))
+])
 def test_rotate_returns_Square_rotated_90_degrees_counter_clockwise(
-    input: tuple[int], expected: tuple[int]
+    input: Square, expected: Square
 ):
-    sut = Square(*input)
+    output = rotate(input)
 
-    assert sut.rotate_90deg_counter_clockwise() == Square(*expected)
+    assert output == expected

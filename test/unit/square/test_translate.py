@@ -1,25 +1,19 @@
 import pytest
 
-from src.square import Square, SquareTypeError
+from src.square import Square, translate
 
 
 @pytest.mark.parametrize(
     "start,move,expected",
-    [((0, 0), (0, 0), (0, 0)), ((0, 0), (1, 2), (1, 2)), ((1, 1), (-2, 0), (-1, 1))],
+    [
+        (Square(0, 0), Square(0, 0), Square(0, 0)), 
+        (Square(0, 0), Square(1, 2), Square(1, 2)), 
+        (Square(1, 1), Square(-2, 0), Square(-1, 1))
+    ]
 )
-def test_translate_returns_Square_reflected_across_0_axis(
-    start: tuple[int], move: tuple[int], expected: tuple[int]
+def test_translate_returns_expected_translated_square(
+    start: Square, move: Square, expected: Square
 ):
-    sut = Square(*start)
+    finish = translate(start, move)
 
-    assert sut.translate(*move) == Square(*expected)
-
-
-@pytest.mark.parametrize("move", [(1, 1.1), (2.1, 1)])
-def test_SquareTypeError_raised_for_translations_containing_non_int_values(
-    move: tuple[int],
-):
-    sut = Square(1, 2)
-
-    with pytest.raises(SquareTypeError):
-        sut.translate(move)
+    assert finish == expected

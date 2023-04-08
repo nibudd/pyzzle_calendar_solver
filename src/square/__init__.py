@@ -1,2 +1,2 @@
-from square import Square, SquareTypeError
-from config import SquareConfig
+from .square import Square
+from .square_service import reflect, rotate, translate
