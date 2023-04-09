@@ -8,8 +8,11 @@ from src import square
 def flip(piece: Piece) -> Piece:
     """Flips the piece over, as if reflected across the x-axis
 
+    Args:
+        piece (Piece): A piece to flip in place across an x-parallel axis
+
     Returns:
-        Piece: A new piece that is a mirror image of the original
+        Piece: A flipped version of the original piece
     """
     reflected = (square.reflect(s) for s in piece.squares)
 
@@ -18,42 +21,36 @@ def flip(piece: Piece) -> Piece:
 
     return Piece((square.translate(s, move) for s in reflected), piece.id)
 
-# def move(self: Iterable[Square], x: int, y: int) -> Self:
-#     """Moves piece a number of squares equal to `translation`
+def move(piece: Piece, move: square.Square) -> Piece:
+    """Moves piece a number of squares represented by `move`
 
-#     Args:
-#         translation (tuple): A tuple indicating the number of squares the piece will move
+    Args:
+        piece (Piece): The piece to be moved
+        move (Square): Represents the translation to be performed on piece
 
-#     Returns:
-#         Self: A new piece that is the same shape of the original but offset by `translation`
-#     """
-#     return PieceService((square.translate(x, y) for square in self), self.id)
+    Returns:
+        Self: A new piece that is the same shape of the original but offset by `move`
+    """
+    return Piece((square.translate(s, move) for s in piece.squares), piece.id)
 
-# def rotate(self, reps: int = 1) -> Self:
-#     """Rotates a piece 90 degrees counter-clockwise the indicated number of times
+def rotate(piece: Piece, reps: int = 1) -> Self:
+    """Rotates a piece 90 degrees counter-clockwise the indicated number of times
 
-#     Args:
-#         reps (int, optional): The number of 90 degree reotations to perform. Defaults to 1.
+    Args:
+        piece (Piece): The piece to be rotated
+        reps (int, optional): The number of counter-clockwise 90 degree reotations to perform. Negative numbers cause clockwise rotations. Defaults to 1.
 
-#     Returns:
-#         Self: A new piece that is the same shape o the original rotated 90 degrees counter-clockwise the indicated number of times
-#     """
-#     min_reps = reps % 4
-#     rotated = []
-#     for square in self:
-#         _square: Square = deepcopy(square)
-#         for _ in range(min_reps):
-#             _square = _square.rotate_90deg_counter_clockwise()
+    Returns:
+        Self: A new piece that is the same shape as the original rotated 90 degrees counter-clockwise the indicated number of times
+    """
+    max_reps = 4
+    _reps = reps % max_reps
+    rotated = []
 
-#         rotated.append(_square)
+    for sq in piece.squares:        
+        for _ in range(_reps):
+            sq = square.rotate(sq)
 
-#     return PieceService(rotated, self.id)
+        rotated.append(sq)
 
-# @classmethod
-# def from_iterables(cls, iterables: Iterable[Iterable[int]], id: str) -> Self:
-#     squares = (Square(*iterable) for iterable in iterables)
-#     return PieceService(squares, id)
-
-
-class PieceTypeError(TypeError):
-    pass
+    return Piece(rotated, piece.id)

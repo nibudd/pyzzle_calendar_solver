@@ -1,20 +1,32 @@
 import pytest
 
-from src.piece import PieceService
+from src.piece import Piece, move
+from src.square import Square
 
 
 @pytest.mark.parametrize(
-    "inputs,translation,translated",
+    "piece,translation,expected",
     [
-        (((1, 0), (2, 2), (3, 1)), (0, 0), ((1, 0), (2, 2), (3, 1))),
-        (((1, 0), (2, 2), (3, 1)), (1, 1), ((2, 1), (3, 3), (4, 2))),
-        (((1, 0), (2, 2), (3, 1)), (1, 2), ((2, 2), (3, 4), (4, 3))),
+        (
+            Piece((Square(1, 0), Square(2, 2), Square(3, 1)), "X"), 
+            Square(0, 0), 
+            Piece((Square(1, 0), Square(2, 2), Square(3, 1)), "X")
+        ),
+        (
+            Piece((Square(1, 0), Square(2, 2), Square(3, 1)), "X"), 
+            Square(1, 1), 
+            Piece((Square(2, 1), Square(3, 3), Square(4, 2)), "X")
+        ),
+        (
+            Piece((Square(1, 0), Square(2, 2), Square(3, 1)), "X"), 
+            Square(1, 2), 
+            Piece((Square(2, 2), Square(3, 4), Square(4, 3)), "X")
+        ),
     ],
 )
 def test_pieces_symmetric_across_0_axis_are_unchanged(
-    inputs: tuple[int], translation: tuple, translated: tuple[int]
+    piece: Piece, translation: Square, expected: Piece
 ):
-    piece = PieceService.from_iterables(inputs, "X")
-    sut = piece.move(*translation)
+    moved = move(piece, translation)
 
-    assert sut == PieceService.from_iterables(translated, "X")
+    assert moved == expected

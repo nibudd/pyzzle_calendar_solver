@@ -1,43 +1,47 @@
 import pytest
 
 from src.square import Square
-from src.piece import PieceService
+from src.piece import Piece, rotate
 
 
 @pytest.mark.parametrize(
-    "squares,reps,rotated",
+    "piece,reps,expected",
     [
         (
-            ((1, 0), (2, 2), (3, 1)),
+            Piece((Square(1, 0), Square(2, 2), Square(3, 1)), "X"),
             0,
-            ((1, 0), (2, 2), (3, 1)),
+            Piece((Square(1, 0), Square(2, 2), Square(3, 1)), "X"),
         ),
         (
-            ((1, 0), (2, 2), (3, 1)),
+            Piece((Square(1, 0), Square(2, 2), Square(3, 1)), "X"),
             1,
-            ((0, 1), (-2, 2), (-1, 3)),
+            Piece((Square(0, 1), Square(-2, 2), Square(-1, 3)), "X"),
         ),
         (
-            ((1, 0), (2, 2), (3, 1)),
+            Piece((Square(1, 0), Square(2, 2), Square(3, 1)), "X"),
             2,
-            ((-1, 0), (-2, -2), (-3, -1)),
+            Piece((Square(-1, 0), Square(-2, -2), Square(-3, -1)), "X"),
         ),
         (
-            ((1, 0), (2, 2), (3, 1)),
+            Piece((Square(1, 0), Square(2, 2), Square(3, 1)), "X"),
             3,
-            ((0, -1), (2, -2), (1, -3)),
+            Piece((Square(0, -1), Square(2, -2), Square(1, -3)), "X"),
         ),
         (
-            ((1, 0), (2, 2), (3, 1)),
+            Piece((Square(1, 0), Square(2, 2), Square(3, 1)), "X"),
             4,
-            ((1, 0), (2, 2), (3, 1)),
+            Piece((Square(1, 0), Square(2, 2), Square(3, 1)), "X"),
         ),
+        (
+            Piece((Square(1, 0), Square(2, 2), Square(3, 1)), "X"),
+            -1,
+            Piece((Square(0, -1), Square(2, -2), Square(1, -3)), "X"),
+        )
     ],
 )
 def test_pieces_symmetric_across_0_axis_are_unchanged(
-    squares: tuple[tuple[int]], reps: int, rotated: tuple[tuple[int]]
+    piece: Piece, reps: int, expected: Piece
 ):
-    piece = PieceService.from_iterables(squares, "X")
-    sut = piece.rotate(reps)
+    rotated = rotate(piece, reps)
 
-    assert sut == PieceService.from_iterables(rotated, "X")
+    assert rotated == expected
